@@ -4,7 +4,5 @@
   "description": "Formbuilder is a small graphical interface for letting users build their own webforms",
   "homepage": "https://github.com/dobtco/formbuilder",
   "author": "adamjacobbecker <ad@mbecker.cc>",
-  "git": "https://github.com/plachintas/formbuilder.git",
-  "packages": {
-  }
+  "git": "https://github.com/plachintas/formbuilder.git#meteorite"
 }
