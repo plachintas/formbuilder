@@ -1,0 +1,15 @@
+<div class='fb-edit-section-header'>ACL</div>
+
+<div class='option' data-rv-each-option='model.<%= Formbuilder.options.mappings.ACL %>'>
+  <label data-rv-text="option:role"></label>
+
+  <div class="fb-acl-radios">
+    <% _.each(Formbuilder.options.ACL_OPTIONS, function(acl) { %>
+      <label class="radio-inline" title="<%= acl.name %>">
+        <input class="js-trigger-updated" type="radio" data-rv-checked="option:rights" data-rv-name="option:role" value="<%= acl.id %>">
+        <%= acl.id %>
+      </label>
+    <% }); %>
+  </div>
+
+</div>

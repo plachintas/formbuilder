@@ -1,4 +1,5 @@
-Formbuilder.registerField 'time',
+# Formbuilder.registerField 'time',
+Formbuilder.doNotRegisterField 'time',
 
   order: 25
 

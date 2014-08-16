@@ -1,4 +1,5 @@
-Formbuilder.registerField 'price',
+# Formbuilder.registerField 'price',
+Formbuilder.doNotRegisterField 'price',
 
   order: 45
 

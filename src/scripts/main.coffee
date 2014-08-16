@@ -76,6 +76,7 @@ class EditFieldView extends Backbone.View
     'click .js-remove-option': 'removeOption'
     'click .js-default-updated': 'defaultUpdated'
     'input .option-label-input': 'forceRender'
+    'click .js-trigger-updated': 'triggerUpdated'
 
   initialize: (options) ->
     {@parentView} = options
@@ -127,6 +128,9 @@ class EditFieldView extends Backbone.View
   forceRender: ->
     @model.trigger('change')
 
+  triggerUpdated: ->
+    @model.trigger('change')
+
 
 class BuilderView extends Backbone.View
   SUBVIEWS: []
@@ -165,7 +169,7 @@ class BuilderView extends Backbone.View
     unless !Formbuilder.options.AUTOSAVE
       setInterval =>
         @saveForm.call(@)
-      , 5000
+      , Formbuilder.options.AUTOSAVE_INTERVAL
 
     $(window).bind 'beforeunload', =>
       if @formSaved then undefined else Formbuilder.options.dict.UNSAVED_CHANGES
@@ -353,14 +357,27 @@ class BuilderView extends Backbone.View
 
         @updatingBatch = undefined
 
+  getFormData: ->
+    @collection.sort()
+    @collection.toJSON()
+
 
 class Formbuilder
   @helpers:
     defaultFieldAttrs: (field_type) ->
       attrs = {}
+      # attrs[Formbuilder.options.mappings.NAME] = 'Untitled'
       attrs[Formbuilder.options.mappings.LABEL] = 'Untitled'
       attrs[Formbuilder.options.mappings.FIELD_TYPE] = field_type
       attrs[Formbuilder.options.mappings.REQUIRED] = true
+      # attrs['field_options'] = {
+      #   acl: [
+      #     { role: 'admin', rights: 'rw' }
+      #     { role: 'owner', rights: 'or' }
+      #     { role: 'topManager', rights: 'or' }
+      #     { role: 'manager', rights: 'or' }
+      #   ]
+      # }
       attrs['field_options'] = {}
       Formbuilder.fields[field_type].defaultAttributes?(attrs) || attrs
 
@@ -369,14 +386,17 @@ class Formbuilder
 
   @options:
     BUTTON_CLASS: 'fb-button'
+    BUTTON_CLASS_SAVE: 'fb-button'
     HTTP_ENDPOINT: ''
     HTTP_METHOD: 'POST'
     AUTOSAVE: true
+    AUTOSAVE_INTERVAL: 5000
     CLEAR_FIELD_CONFIRM: false
 
     mappings:
       SIZE: 'field_options.size'
       UNITS: 'field_options.units'
+      NAME: 'name'
       LABEL: 'label'
       FIELD_TYPE: 'field_type'
       REQUIRED: 'required'
@@ -391,6 +411,9 @@ class Formbuilder
       MINLENGTH: 'field_options.minlength'
       MAXLENGTH: 'field_options.maxlength'
       LENGTH_UNITS: 'field_options.min_max_length_units'
+      ACL: 'field_options.acl'
+      PATTERN: 'field_options.pattern'
+      ERROR_MESSAGE: 'field_options.error_message'
 
     dict:
       ALL_CHANGES_SAVED: 'All changes saved'
@@ -400,6 +423,8 @@ class Formbuilder
   @fields: {}
   @inputFields: {}
   @nonInputFields: {}
+
+  @doNotRegisterField: ->
 
   @registerField: (name, opts) ->
     for x in ['view', 'edit']
@@ -417,7 +442,16 @@ class Formbuilder
   constructor: (opts={}) ->
     _.extend @, Backbone.Events
     args = _.extend opts, {formBuilder: @}
+    if opts.schema
+      args.bootstrapData = Formbuilder.convertFromSchema opts.schema
+
     @mainView = new BuilderView args
+
+  getFormData: ->
+    @mainView.getFormData()
+
+  getFormData_as_jsonSchema: ->
+    Formbuilder.convertToSchema @mainView.getFormData()
 
 window.Formbuilder = Formbuilder
 

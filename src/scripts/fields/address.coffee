@@ -1,4 +1,5 @@
-Formbuilder.registerField 'address',
+# Formbuilder.registerField 'address',
+Formbuilder.doNotRegisterField 'address',
 
   order: 50
 

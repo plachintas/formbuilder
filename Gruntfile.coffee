@@ -50,6 +50,7 @@ module.exports = (grunt) ->
             '<%= srcFolder %>/scripts/rivets-config.coffee'
             '<%= srcFolder %>/scripts/main.coffee'
             '<%= srcFolder %>/scripts/fields/*.coffee'
+            '<%= srcFolder %>/scripts/utils/*.coffee'
           ]
 
     concat:

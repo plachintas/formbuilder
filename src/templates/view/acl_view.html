@@ -1,0 +1,13 @@
+<ul class="acl-view list-inline">
+  <% options = rf.get(Formbuilder.options.mappings.ACL) %>
+
+  <!-- TODO: -->
+  <% titles = {}; %>
+  <% _.each(Formbuilder.options.ACL_OPTIONS, function(acl) { titles[acl.id] = acl.name; }); %>
+
+  <% _.each(options, function(option) {
+    %><li title="<%= option.role %>: '<%= titles[option.rights] %>'">
+      <%= option.rights %>
+    </li><%
+  }); %>
+</ul>

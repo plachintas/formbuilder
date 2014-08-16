@@ -1,4 +1,4 @@
-Formbuilder.registerField 'section_break',
+Formbuilder.registerField 'field_group',
 
   order: 0
 
@@ -10,12 +10,8 @@ Formbuilder.registerField 'section_break',
   """
 
   edit: """
-    <div class='fb-edit-section-header'>Label</div>
-    <input type='text' data-rv-input='model.<%= Formbuilder.options.mappings.LABEL %>' />
-    <textarea data-rv-input='model.<%= Formbuilder.options.mappings.DESCRIPTION %>'
-      placeholder='Add a longer description to this field'></textarea>
   """
 
   addButton: """
-    <span class='symbol'><span class='fa fa-minus'></span></span> Section Break
+    <span class='symbol'><span class='fa fa-minus'></span></span> Field Group
   """

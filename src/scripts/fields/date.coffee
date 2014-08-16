@@ -1,4 +1,5 @@
-Formbuilder.registerField 'date',
+# Formbuilder.registerField 'date',
+Formbuilder.doNotRegisterField 'date',
 
   order: 20
 

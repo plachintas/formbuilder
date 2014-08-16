@@ -4,7 +4,7 @@ $sec-color = #16a085
 $affirmitive-color = #2ecc71
 $negative-color = #e74c3c
 
-$editing-bg = #ecf0f1
+$editing-bg = #ECECEC
 $editing-border = darken($editing-bg, 7%)
 
 .fb-button {
@@ -50,21 +50,25 @@ $editing-border = darken($editing-bg, 7%)
   position: absolute;
   right: 20px;
   top: 10px;
+  z-index 10
 }
 
 .fb-left {
   float: left;
-  width: 320px;
+  width: 400px;
   padding-top: 30px;
+  border-right: 1px solid #ddd;
 }
 
 .fb-right {
   padding-top: 70px;
-  margin-left: 320px;
+  margin-left: 400px;
   border-left: 1px solid #ddd;
   padding-left: 20px;
   min-height: 100%;
   overflow: hidden;
+  position relative
+  left -1px
 }
 
 .fb-no-response-fields {
@@ -90,6 +94,11 @@ $editing-border = darken($editing-bg, 7%)
   cursor: pointer;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
+
+  color: #000 !important;
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .fb-tabs li.active a {
@@ -121,7 +130,7 @@ $editing-border = darken($editing-bg, 7%)
   font-size: 13px;
   display: inline-block;
   width: 48.5%;
-  background-color: $prim-color;
+  // background-color: $prim-color;
   margin-bottom: 9px;
   box-sizing: border-box;
 
@@ -161,7 +170,8 @@ $editing-border = darken($editing-bg, 7%)
   }
 }
 
-.fb-field-wrapper:hover .actions-wrapper,.fb-field-wrapper.editing .actions-wrapper {
+.fb-field-wrapper:hover .actions-wrapper,
+.fb-field-wrapper.editing .actions-wrapper {
   display: block;
 }
 
@@ -173,7 +183,8 @@ $editing-border = darken($editing-bg, 7%)
 /* Editing */
 
 .fb-field-wrapper.editing {
-  background-color: $editing-bg;
+  // background-color: $editing-bg;
+  background: rgba(238, 238, 238, 0.5);
   border-radius: 3px;
 }
 
@@ -187,14 +198,14 @@ $editing-border = darken($editing-bg, 7%)
 .fb-field-wrapper .actions-wrapper {
   display: none;
   position: absolute;
-  bottom: -7px;
+  top: 5px;
   right: 5px;
   z-index: 3;
 }
 
 .fb-field-wrapper .actions-wrapper a {
   display: inline-block;
-  background-color: #ccc;
+  // background-color: #ccc;
   padding: 2px 8px;
 }
 
@@ -209,7 +220,8 @@ $editing-border = darken($editing-bg, 7%)
 
     &:focus {
       outline: none;
-      border: thin solid $prim-color;
+      // border: thin solid $prim-color;
+      border: thin solid #A0BDDA;
     }
   }
   select {
@@ -219,14 +231,14 @@ $editing-border = darken($editing-bg, 7%)
 
 .fb-field-wrapper .actions-wrapper a.js-duplicate,
 .fb-edit-field-wrapper .js-add-option {
-  background-color: $affirmitive-color;
-  border: none;
+  // background-color: $affirmitive-color;
+  // border: none;
 }
 
 .fb-field-wrapper .actions-wrapper a.js-clear,
 .fb-edit-field-wrapper .js-remove-option {
-  background-color: $negative-color;
-  border: none;
+  // background-color: $negative-color;
+  // border: none;
 }
 
 .fb-field-wrapper .subtemplate-wrapper {
@@ -292,7 +304,8 @@ $editing-border = darken($editing-bg, 7%)
 
 .fb-edit-field-wrapper .fb-field-label {
   font-weight: normal;
-  background: #eee;
+  // background: #eee;
+  background: rgba(238, 238, 238, 0.5);
   padding: .75em;
   color: #666;
   font-size: 1.25em;
@@ -322,8 +335,12 @@ $editing-border = darken($editing-bg, 7%)
   font-weight: 700;
 }
 
-.fb-edit-field-wrapper .js-add-option,.fb-edit-field-wrapper .js-remove-option {
-  padding: 3px 6px;
+.fb-edit-field-wrapper .js-add-option,
+.fb-edit-field-wrapper .js-remove-option {
+  padding: 0 5px;
+  float none
+  top 2px
+  position relative
 }
 
 .fb-edit-field-wrapper .fb-bottom-add {
@@ -398,3 +415,62 @@ $editing-border = darken($editing-bg, 7%)
 .response-field-website input {
   width: 200px;
 }
+
+.fb-acl-radios
+  float right
+  [type="radio"]
+    cursor pointer
+
+.acl-view
+  position absolute
+  bottom 5px
+  right 5px
+  z-index 10
+
+  li
+    position relative
+    &:after
+      content "/"
+      display block
+      position absolute
+      top 0
+      right -3px
+
+    &:last-child:after
+      display none
+
+.fb-main
+  // a
+  //   color #333
+  //   transition none
+  //   text-decoration none
+  //   &:hover,
+  //   &:focus
+  //     color #333
+  //     text-decoration none
+
+  input[type="text"]
+    margin-bottom 3px
+
+  code
+    color #666
+    padding 0
+    -webkit-border-radius 0
+    border-radius 0
+    background-color transparent
+
+  .actions-wrapper
+    .js-duplicate,
+    .js-clear
+      font-size 20px
+      float none
+      padding 0 5px
+
+
+  .js-save-form
+    display none
+
+  .fb-group-item
+    label
+      border-color #333
+      font-weight bold

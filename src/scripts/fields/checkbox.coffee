@@ -1,5 +1,4 @@
-# Formbuilder.registerField 'checkboxes',
-Formbuilder.doNotRegisterField 'checkboxes',
+Formbuilder.registerField 'checkbox',
 
   order: 10
 
@@ -12,32 +11,23 @@ Formbuilder.doNotRegisterField 'checkboxes',
         </label>
       </div>
     <% } %>
-
-    <% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>
-      <div class='other-option'>
-        <label class='fb-option'>
-          <input type='checkbox' />
-          Other
-        </label>
-
-        <input type='text' />
-      </div>
-    <% } %>
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/options']({ includeOther: false }) %>
+    <div class='fb-edit-section-header'>Option</div>
+
+    <div class='option' data-rv-each-option='model.<%= Formbuilder.options.mappings.OPTIONS %>'>
+      <input type="checkbox" class='js-default-updated' data-rv-checked="option:checked" />
+      <input type="text" data-rv-input="option:label" class='option-label-input' />
+    </div>
   """
 
   addButton: """
-    <span class="symbol"><span class="fa fa-square-o"></span></span> Checkboxes
+    <span class="symbol"><span class="fa fa-square-o"></span></span> Checkbox
   """
 
   defaultAttributes: (attrs) ->
     attrs.field_options.options = [
-      label: "",
-      checked: false
-    ,
       label: "",
       checked: false
     ]
