@@ -93,7 +93,8 @@ api =
 
       # collect required fields
       reqFields = _.filter groupFields, (field) -> field.required
-      group['required'] = _.pluck reqFields, 'label' # todo? 'name'
+      if reqFields and reqFields.length
+        group['required'] = _.pluck reqFields, 'label' # todo? 'name'
 
 
     schema

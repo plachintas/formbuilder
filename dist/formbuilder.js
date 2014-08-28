@@ -1091,7 +1091,9 @@
         reqFields = _.filter(groupFields, function(field) {
           return field.required;
         });
-        return group['required'] = _.pluck(reqFields, 'label');
+        if (reqFields && reqFields.length) {
+          return group['required'] = _.pluck(reqFields, 'label');
+        }
       });
       return schema;
     }
