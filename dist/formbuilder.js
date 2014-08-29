@@ -566,7 +566,7 @@
         attrs = {};
         attrs[Formbuilder.options.mappings.LABEL] = 'Untitled';
         attrs[Formbuilder.options.mappings.FIELD_TYPE] = field_type;
-        attrs[Formbuilder.options.mappings.REQUIRED] = true;
+        attrs[Formbuilder.options.mappings.REQUIRED] = false;
         attrs['field_options'] = {};
         return (typeof (_base = Formbuilder.fields[field_type]).defaultAttributes === "function" ? _base.defaultAttributes(attrs) : void 0) || attrs;
       },
@@ -659,6 +659,10 @@
       return Formbuilder.convertToSchema(this.mainView.getFormData());
     };
 
+    Formbuilder.prototype.convertFromSchema = function() {};
+
+    Formbuilder.prototype.convertToSchema = function() {};
+
     return Formbuilder;
 
   })();
@@ -684,7 +688,7 @@
 }).call(this);
 
 (function() {
-  Formbuilder.registerField('checkbox', {
+  Formbuilder.doNotRegisterField('checkbox', {
     order: 10,
     view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input type='checkbox' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </label>\n  </div>\n<% } %>",
     edit: "<div class='fb-edit-section-header'>Option</div>\n\n<div class='option' data-rv-each-option='model.<%= Formbuilder.options.mappings.OPTIONS %>'>\n  <input type=\"checkbox\" class='js-default-updated' data-rv-checked=\"option:checked\" />\n  <input type=\"text\" data-rv-input=\"option:label\" class='option-label-input' />\n</div>",
@@ -703,10 +707,10 @@
 }).call(this);
 
 (function() {
-  Formbuilder.doNotRegisterField('checkboxes', {
+  Formbuilder.registerField('checkboxes', {
     order: 10,
     view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input type='checkbox' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input type='checkbox' />\n      Other\n    </label>\n\n    <input type='text' />\n  </div>\n<% } %>",
-    edit: "<%= Formbuilder.templates['edit/options']({ includeOther: false }) %>",
+    edit: "<%= Formbuilder.templates['edit/options']({ includeOther: undefined }) %>",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-square-o\"></span></span> Checkboxes",
     defaultAttributes: function(attrs) {
       attrs.field_options.options = [
@@ -738,7 +742,7 @@
   Formbuilder.registerField('dropdown', {
     order: 24,
     view: "<select>\n  <% if (rf.get(Formbuilder.options.mappings.INCLUDE_BLANK)) { %>\n    <option value=''></option>\n  <% } %>\n\n  <% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n    <option <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'selected' %>>\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </option>\n  <% } %>\n</select>",
-    edit: "<%= Formbuilder.templates['edit/options']({ includeBlank: false }) %>",
+    edit: "<%= Formbuilder.templates['edit/options']({ includeBlank: undefined }) %>",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-caret-down\"></span></span> Dropdown",
     defaultAttributes: function(attrs) {
       attrs.field_options.options = [
@@ -763,6 +767,16 @@
     view: "<input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
     edit: "",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-envelope-o\"></span></span> Email"
+  });
+
+}).call(this);
+
+(function() {
+  Formbuilder.registerField('file', {
+    order: 50,
+    view: "<input type='file' class='form-control' />",
+    edit: "",
+    addButton: "<span class='symbol'><span class='fa fa-file'></span></span> File"
   });
 
 }).call(this);
@@ -802,10 +816,10 @@
 }).call(this);
 
 (function() {
-  Formbuilder.registerField('radio', {
+  Formbuilder.doNotRegisterField('radio', {
     order: 15,
     view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input type='radio' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input type='radio' />\n      Other\n    </label>\n\n    <input type='text' />\n  </div>\n<% } %>",
-    edit: "<%= Formbuilder.templates['edit/options']({ includeOther: false }) %>",
+    edit: "<%= Formbuilder.templates['edit/options']({ includeOther: undefined }) %>",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-circle-o\"></span></span> Multiple Choice",
     defaultAttributes: function(attrs) {
       attrs.field_options.options = [
@@ -865,243 +879,6 @@
     edit: "",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-link\"></span></span> Website"
   });
-
-}).call(this);
-
-(function() {
-  var api,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-  api = {
-    keysFrom: {
-      'description': 'description',
-      'pattern': 'pattern',
-      'minimum': 'min',
-      'maximum': 'max',
-      'minLength': 'minlength',
-      'maxLength': 'maxlength'
-    },
-    _getFieldType: function(field) {
-      var type;
-      type = '';
-      switch (field.type) {
-        case 'boolean':
-          type = 'checkbox';
-          break;
-        case 'number':
-        case 'integer':
-          type = 'number';
-          break;
-        case 'string':
-          type = field["enum"] ? 'dropdown' : 'text';
-      }
-      return type;
-    },
-    _convertField: function(fieldName, field, isRequired) {
-      var data, opts,
-        _this = this;
-      if (isRequired == null) {
-        isRequired = false;
-      }
-      data = {
-        label: fieldName,
-        required: isRequired,
-        field_type: this._getFieldType(field),
-        field_options: {}
-      };
-      opts = data.field_options;
-      if (field.type === 'integer') {
-        opts.integer_only = true;
-      } else if (field.type === 'boolean' && field["default"]) {
-        opts["default"] = field["default"] === 'true';
-      }
-      _.each(field, function(value, key) {
-        if (_this.keysFrom[key]) {
-          return opts[_this.keysFrom[key]] = value;
-        } else if (key === 'enum') {
-          opts.options = [];
-          return _.each(value, function(item) {
-            return opts.options.push({
-              label: item,
-              checked: field["default"] === item
-            });
-          });
-        }
-      });
-      return data;
-    },
-    _convertSchema: function(schema) {
-      var actionSchemaData, fields, groups,
-        _this = this;
-      actionSchemaData = schema.properties.data;
-      groups = actionSchemaData.properties;
-      fields = [];
-      _.each(groups, function(group, groupName) {
-        var groupFields, requiredFields;
-        fields.push({
-          field_type: 'field_group',
-          label: groupName
-        });
-        groupFields = group.properties;
-        requiredFields = group.required || [];
-        return _.each(groupFields, function(field, fieldName) {
-          var isFieldRequired;
-          if (field.formbuilder) {
-            return fields.push(field.formbuilder);
-          } else {
-            isFieldRequired = __indexOf.call(requiredFields, fieldName) >= 0;
-            return fields.push(_this._convertField(fieldName, field, isFieldRequired));
-          }
-        });
-      });
-      return fields;
-    }
-  };
-
-  Formbuilder.convertFromSchema = function(schema) {
-    return api._convertSchema(schema);
-  };
-
-}).call(this);
-
-(function() {
-  var api;
-
-  api = {
-    keysTo: {
-      'label': 'title',
-      'description': 'description',
-      'pattern': 'pattern',
-      'min': 'minimum',
-      'max': 'maximum',
-      'minlength': 'minLength',
-      'maxlength': 'maxLength',
-      'size': 'size',
-      'field_type': 'field_type',
-      'error_message': 'error_message'
-    },
-    _getType: function(field) {
-      var type, _ref;
-      type = '';
-      switch (field.field_type) {
-        case 'text':
-        case 'paragraph':
-        case 'radio':
-        case 'dropdown':
-        case 'email':
-        case 'website':
-        case 'checkboxes':
-          type = 'string';
-          break;
-        case 'checkbox':
-          type = 'boolean';
-          break;
-        case 'number':
-          type = ((_ref = field.field_options) != null ? _ref.integer_only : void 0) ? 'integer' : 'number';
-          break;
-        default:
-          type = 'null';
-      }
-      return type;
-    },
-    _convertField: function(field) {
-      var data, flatField,
-        _this = this;
-      data = {
-        type: this._getType(field),
-        formbuilder: field
-      };
-      switch (field.field_type) {
-        case 'email':
-          data.format = 'email';
-          break;
-        case 'website':
-          data.format = 'uri';
-      }
-      flatField = _.extend({}, field, field.field_options);
-      _.each(flatField, function(value, key) {
-        var def, firstItem, _ref;
-        switch (key) {
-          case 'min':
-          case 'max':
-          case 'minlength':
-          case 'maxlength':
-            return data[_this.keysTo[key]] = parseInt(value, 10);
-          case 'description':
-          case 'pattern':
-            return data[_this.keysTo[key]] = value;
-          case 'size':
-          case 'field_type':
-          case 'error_message':
-            if (!data['viewOptions']) {
-              data['viewOptions'] = {};
-            }
-            return data['viewOptions'][_this.keysTo[key]] = value;
-          case 'options':
-            if (field.field_type === 'checkbox') {
-              firstItem = value[0];
-              return data['default'] = (firstItem != null ? firstItem.checked : void 0) ? 'true' : 'false';
-            } else if ((_ref = field.field_type) === 'dropdown' || _ref === 'radio' || _ref === 'checkboxes') {
-              def = _.find(value, function(opt) {
-                return opt.checked;
-              });
-              if (def) {
-                data['default'] = def.label;
-              }
-              return data['enum'] = _.pluck(value, 'label');
-            }
-        }
-      });
-      return data;
-    },
-    _convertFields: function(fields) {
-      var curGroup, groups, schema,
-        _this = this;
-      if ((fields != null ? fields[0].field_type : void 0) !== 'field_group') {
-        fields.unshift({
-          label: "untitled_group",
-          field_type: "field_group"
-        });
-      }
-      groups = {};
-      curGroup = null;
-      _.each(fields, function(field) {
-        if (field.field_type === 'field_group') {
-          curGroup = field.label;
-          return groups[curGroup] = [];
-        } else if (curGroup) {
-          return groups[curGroup].push(field);
-        }
-      });
-      schema = {
-        type: 'object',
-        properties: {}
-      };
-      _.each(groups, function(groupFields, groupName) {
-        var group, groupProps, reqFields;
-        schema.properties[groupName] = {
-          type: 'object',
-          properties: {}
-        };
-        group = schema.properties[groupName];
-        groupProps = group.properties;
-        _.each(groupFields, function(field) {
-          return groupProps[field.label] = _this._convertField(field);
-        });
-        reqFields = _.filter(groupFields, function(field) {
-          return field.required;
-        });
-        if (reqFields && reqFields.length) {
-          return group['required'] = _.pluck(reqFields, 'label');
-        }
-      });
-      return schema;
-    }
-  };
-
-  Formbuilder.convertToSchema = function(fields) {
-    return api._convertFields(fields);
-  };
 
 }).call(this);
 

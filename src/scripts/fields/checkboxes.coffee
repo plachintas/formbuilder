@@ -1,5 +1,4 @@
-# Formbuilder.registerField 'checkboxes',
-Formbuilder.doNotRegisterField 'checkboxes',
+Formbuilder.registerField 'checkboxes',
 
   order: 10
 
@@ -26,7 +25,7 @@ Formbuilder.doNotRegisterField 'checkboxes',
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/options']({ includeOther: false }) %>
+    <%= Formbuilder.templates['edit/options']({ includeOther: undefined }) %>
   """
 
   addButton: """

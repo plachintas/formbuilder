@@ -1,4 +1,5 @@
-Formbuilder.registerField 'radio',
+# Formbuilder.registerField 'radio',
+Formbuilder.doNotRegisterField 'radio',
 
   order: 15
 
@@ -25,7 +26,7 @@ Formbuilder.registerField 'radio',
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/options']({ includeOther: false }) %>
+    <%= Formbuilder.templates['edit/options']({ includeOther: undefined }) %>
   """
 
   addButton: """

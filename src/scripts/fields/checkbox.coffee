@@ -1,4 +1,5 @@
-Formbuilder.registerField 'checkbox',
+# Formbuilder.registerField 'checkbox',
+Formbuilder.doNotRegisterField 'checkbox',
 
   order: 10
 

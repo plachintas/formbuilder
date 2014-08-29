@@ -369,7 +369,7 @@ class Formbuilder
       # attrs[Formbuilder.options.mappings.NAME] = 'Untitled'
       attrs[Formbuilder.options.mappings.LABEL] = 'Untitled'
       attrs[Formbuilder.options.mappings.FIELD_TYPE] = field_type
-      attrs[Formbuilder.options.mappings.REQUIRED] = true
+      attrs[Formbuilder.options.mappings.REQUIRED] = false
       # attrs['field_options'] = {
       #   acl: [
       #     { role: 'admin', rights: 'rw' }
@@ -452,6 +452,9 @@ class Formbuilder
 
   getFormData_as_jsonSchema: ->
     Formbuilder.convertToSchema @mainView.getFormData()
+
+  convertFromSchema: ->
+  convertToSchema: ->
 
 window.Formbuilder = Formbuilder
 
