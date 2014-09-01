@@ -873,7 +873,7 @@
 }).call(this);
 
 (function() {
-  Formbuilder.registerField('website', {
+  Formbuilder.doNotRegisterField('website', {
     order: 35,
     view: "<input type='text' placeholder='http://' />",
     edit: "",

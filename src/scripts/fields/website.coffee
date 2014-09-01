@@ -1,4 +1,5 @@
-Formbuilder.registerField 'website',
+# Formbuilder.registerField 'website',
+Formbuilder.doNotRegisterField 'website',
 
   order: 35
 
